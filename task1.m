@@ -41,3 +41,5 @@ wireframe_scaled = [wireframe(1,:) * width_scale; wireframe(2,:) * length_scale;
 
 subplot(1,2,1); visualizeWireframe3D(wireframe); % Plot of mean car shape with original dimensions
 subplot(1,2,2); visualizeWireframe3D(wireframe_scaled); title("Scaled dimensions"); % Plot of mean car shape with scaled dimensions
+
+end
