@@ -9,7 +9,7 @@ wireframe_hc = [wireframe; ones(1,14)];
 T = [R t];
 
 transformed_coords = T * wireframe_hc;
-visualizeWireframe3D(transformed_coords);
+% visualizeWireframe3D(transformed_coords);
 
 % Rotating deformation vectors
 deformation_vectors = importdata("vectors.txt");
