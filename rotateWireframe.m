@@ -10,10 +10,10 @@ T = B(:,4:6)';
 
 for i=1:size(phi,1)
 %     R = [cos(phi(i)), sin(phi(i)), 0; -sin(phi(i)), cos(phi(i)), 0; 0, 0, 1]';
-    R_y = [cos(phi(i)), 0, sin(phi(i)); 0 1 0; -sin(phi(i)), 0, cos(phi(i))];
+    R_y = roty(rad2deg(phi(i)));
 %     R_x = [1 0 0; 0 0 -1; 0 1 0];
     old_wireframe_hc = [old_wireframe; ones(1,size(old_wireframe,2))];
-    new_wireframe_hc = K * R_y * [eye(3), -T(:,i)] * old_wireframe_hc;
+    new_wireframe_hc = K * R_y * [eye(3), T(:,i)] * old_wireframe_hc;
     new_wireframe = [new_wireframe_hc(1,:) ./ new_wireframe_hc(3,:); new_wireframe_hc(2,:) ./ new_wireframe_hc(3,:)];
     new_def_vectors = zeros(size(old_def_vectors));
     for j = 1:size(old_def_vectors,1)
