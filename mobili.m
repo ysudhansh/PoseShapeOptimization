@@ -12,7 +12,7 @@ B = [];
 for i=1:size(tracklets_data,1)
     b = [(tracklets_data(i,4) + tracklets_data(i,6))/2; tracklets_data(i,7); 1];
     op = (-h * inv(K) * b) ./ (n' * inv(K) * b);
-    op = op + [0; avgCarHeight/2; avgCarLength/2];
+    op = op + [0; -avgCarHeight/2; avgCarLength/2];
     B = [B; tracklets_data(i,1) tracklets_data(i,2) tracklets_data(i,3) op'];
 end
 
