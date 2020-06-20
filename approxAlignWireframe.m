@@ -1,4 +1,4 @@
-function new_wireframe = rotateWireframe(seq, frm, id)
+function approxAlignWireframe(seq, frm, id)
 
 K = [721.53,0,609.55;0,721.53,172.85;0,0,1];
 [old_wireframe, old_def_vectors] = task2();
@@ -30,4 +30,6 @@ for i=1:size(phi,1)
 %     visualizeWireframe3D(wireframe_img);
     visualizeWireframe2D("left_colour_imgs/" + string(tracklets_data(i,1)) + "_" + string(tracklets_data(i,2)) + ".png", new_wireframe_img);
     pause(2);
+
 end
+
