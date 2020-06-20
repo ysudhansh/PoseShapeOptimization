@@ -3,16 +3,12 @@ function [tracklets_op, ground_truth] = tracklets_helper(seq, frm, id)
 label_dir = "~/rrc/PoseShapeOptimization/training/label_02";
 tracklets_op = [];
 ground_truth = [];
-% size(seq)
 for i=1:size(seq,2)
     seq_idx = seq(i);
     frm_idx = frm(i);
     zero_base_frm_idx = frm_idx + 1;
     carID = id(i);
-%     cd ~/rrc/PoseShapeOptimization/;
-%     break;
     global_tracklets_set = readLabels(label_dir, seq_idx);
-%     size(global_tracklets_set{zero_base_frm_idx})
     for j=1:size(global_tracklets_set{zero_base_frm_idx},2)
         if global_tracklets_set{zero_base_frm_idx}(j).id == carID
             bbox_x1 = global_tracklets_set{zero_base_frm_idx}(j).x1;
@@ -29,7 +25,6 @@ for i=1:size(seq,2)
     
 end
 
-% pwd
 cd ~/rrc/PoseShapeOptimization/;
 
 end
