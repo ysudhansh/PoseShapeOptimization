@@ -22,5 +22,5 @@ for i=1:size(data,1)
 %     scatter(keypoints(1,:), keypoints(2,:));
 %     pause(1);
 end
-% size(keypoints_mean_collection)
+
 end

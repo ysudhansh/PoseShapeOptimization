@@ -18,6 +18,5 @@ for i=1:size(azimuth,1)
 end
 
 w = 0.3 * wkps + 0.7 * wkpl;
-size(w);
 
 end

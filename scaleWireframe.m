@@ -1,4 +1,4 @@
-function wireframe_scaled = task1()
+function wireframe_scaled = scaleWireframe()
 
 % Retrieve data from meanShape.txt, and use that to visualize the wireframe
 % of the mean shape of the car.

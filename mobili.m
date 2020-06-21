@@ -4,7 +4,6 @@ K = [721.53,0,609.55;0,721.53,172.85;0,0,1];
 avgCarLength = 3.8600;
 avgCarWidth = 1.6362;
 avgCarHeight = 1.5208;
-% dir = "left_colour_imgs/";
 h = avgCarHeight;
 n = [0; -1; 0];
 [tracklets_data, ground_truth] = tracklets(seq, frm, id);

@@ -1,7 +1,7 @@
 function [wireframe_collection, def_vector_collection] = approxAlignWireframe(seq, frm, id)
 
 K = [721.53,0,609.55;0,721.53,172.85;0,0,1];
-[old_wireframe, old_def_vectors] = task2();
+[old_wireframe, old_def_vectors] = initialTransformations();
 tracklets_data = tracklets(seq, frm, id);
 ry = tracklets_data(:,8);
 phi = ry + pi/2 + rand(size(ry))/10;
@@ -10,10 +10,7 @@ T = B(:,4:6)';
 wireframe_collection = [];
 def_vector_collection = [];
 for i=1:size(phi,1)
-%     R = [cos(phi(i)), sin(phi(i)), 0; -sin(phi(i)), cos(phi(i)), 0; 0, 0, 1]';
     R_y = roty(rad2deg(phi(i)));
-%     R_x = [1 0 0; 0 0 -1; 0 1 0];
-%     old_wireframe_hc = [old_wireframe; ones(1,size(old_wireframe,2))];
     new_wireframe = R_y * old_wireframe;
     new_wireframe_translated = new_wireframe + T(:,i);
     new_wireframe_temp = K * new_wireframe_translated;
@@ -34,9 +31,6 @@ for i=1:size(phi,1)
 %     pause(2);
 
 end
-
-% size(wireframe_collection)
-% size(def_vector_collection)
 
 end
 
