@@ -16,7 +16,7 @@ for i=1:size(tracklets_data,1)
     B = [B; tracklets_data(i,1) tracklets_data(i,2) tracklets_data(i,3) op'];
 end
 
-error = abs(ground_truth - B) % Ignore 1st three columns, last three columns are all that matter.
+error = abs(ground_truth - B); % Ignore 1st three columns, last three columns are all that matter.
 
 end
 
