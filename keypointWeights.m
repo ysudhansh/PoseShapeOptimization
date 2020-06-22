@@ -10,10 +10,8 @@ wkpl = [];
 for i=1:size(azimuth,1)
     if (floor(azimuth(i)) >= 1)
         wkpl = [wkpl, kp_lookup(:,floor(azimuth(i))) ./ sum(kp_lookup(:, floor(azimuth(i))))];
-    elseif (floor(azimuth(i)) == 0)
-        wkpl = [wkpl, kp_lookup(:,360) ./ sum(kp_lookup(:, 360))];
     else
-        wkpl = [wkpl, kp_lookup(:,360 + ceil(azimuth(i))) ./ sum(kp_lookup(:, 360 + ceil(azimuth(i))))];
+        wkpl = [wkpl, kp_lookup(:,360 + floor(azimuth(i))) ./ sum(kp_lookup(:, 360 + floor(azimuth(i))))];
     end
 end
 

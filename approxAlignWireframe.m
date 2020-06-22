@@ -24,9 +24,6 @@ for i=1:size(phi,1)
     end
     def_vector_collection = [def_vector_collection; new_def_vectors];
 %     figure;
-%     imshow("left_colour_imgs/" + string(tracklets_data(i,1)) + "_" + string(tracklets_data(i,2)) + ".png");
-%     hold on;
-%     visualizeWireframe3D(wireframe_img);
 %     visualizeWireframe2D("left_colour_imgs/" + string(tracklets_data(i,1)) + "_" + string(tracklets_data(i,2)) + ".png", new_wireframe_img);
 %     pause(2);
 
