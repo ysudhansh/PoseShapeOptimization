@@ -16,7 +16,7 @@ lambda = [0.250000 0.270000 0.010000 -0.080000 -0.050000];
 
 for i=1:size(frm,2)
    
-    fileID = fopen("ceres/inputPoseEst.txt","w");
+    fileID = fopen("ceres/ceres_input_singleViewPoseAdjuster.txt","w");
     fprintf(fileID, "%d %d %d\n", [numViews, numPts, numObs]);
     fprintf(fileID, "%f %f %f\n", carCenters(:,i)');
     fprintf(fileID, "%f %f %f\n", [avgCarHeight, avgCarWidth, avgCarLength]);
@@ -25,7 +25,7 @@ for i=1:size(frm,2)
     fprintf(fileID, "%f\n", observation_wts(:,i));
     fprintf(fileID, "%f %f %f\n", wireframe(3*i-2:3*i,:)');
     fprintf(fileID, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", def_vectors(5*i-4:5*i, :));
-    fprintf(fileID, "%f %f %f %f %f\n", lambda);
+    fprintf(fileID, "%f %f %f %f %f", lambda);
     fclose(fileID);
     
 end

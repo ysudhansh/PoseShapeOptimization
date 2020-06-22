@@ -639,7 +639,10 @@ struct PnPError{
 
 		// Rotate the point (and store the result in the same variable)
 		// Order of arguments passed: (axis-angle rotation vector (size 3), point (size 3), array where result is to be stored (size 3))
-		ceres::AngleAxisRotatePoint(rot, P_, P_);
+		T Pt_[3];
+		ceres::AngleAxisRotatePoint(rot, P_, Pt_);
+		*P_ = *Pt_;
+
 		// Add the translation
 		P_[0] = T(P_[0]) + trans[0];
 		P_[1] = T(P_[1]) + trans[1];
