@@ -107,6 +107,13 @@ singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libatlas.so
 singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
 singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/librt.so
 singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libcxsparse.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libtbbmalloc.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libtbb.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libcholmod.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libccolamd.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libcamd.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libcolamd.so
+singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libamd.so
 singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/liblapack.so
 singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libf77blas.so
 singleViewPoseAdjuster: /usr/lib/x86_64-linux-gnu/libatlas.so

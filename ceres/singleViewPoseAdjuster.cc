@@ -180,6 +180,8 @@ int main(int argc, char** argv){
 	ceres::Solve(options, &problem, &summary);
 	// std::cout << summary.FullReport() << std::endl;
 
+
+
 	// Open the output file (to write the result)
 	std::ofstream outFile;
 	outFile.open(outputFileName);

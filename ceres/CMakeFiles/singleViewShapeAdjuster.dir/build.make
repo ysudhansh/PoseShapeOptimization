@@ -107,6 +107,13 @@ singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libatlas.so
 singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
 singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/librt.so
 singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libcxsparse.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libtbbmalloc.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libtbb.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libcholmod.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libccolamd.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libcamd.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libcolamd.so
+singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libamd.so
 singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/liblapack.so
 singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libf77blas.so
 singleViewShapeAdjuster: /usr/lib/x86_64-linux-gnu/libatlas.so

@@ -642,7 +642,7 @@ struct PnPError{
 		T Pt_[3];
 		ceres::AngleAxisRotatePoint(rot, P_, Pt_);
 		*P_ = *Pt_;
-
+		
 		// Add the translation
 		P_[0] = T(P_[0]) + trans[0];
 		P_[1] = T(P_[1]) + trans[1];

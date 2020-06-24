@@ -1,8 +1,8 @@
 function [transformed_coords, transformed_deformation_vectors] = initialTransformations()
 
 [wireframe, deformation_vectors] = scaleWireframe();
-R = [-1 0 0; 0 0 -1; 0 -1 0]'; % World frame (world coordinate system) to camera frame (camera coordinate system)
-
+% R = [-1 0 0; 0 0 -1; 0 -1 0]'; % World frame (world coordinate system) to camera frame (camera coordinate system)
+R = rotz(180) * rotx(-90); % LOL, same as the above one only xD
 transformed_coords = R * wireframe;
 % visualizeWireframe3D(transformed_coords);
 
