@@ -9,7 +9,7 @@ avgCarWidth = 1.6362;
 avgCarHeight = 1.5208;
 B = mobili(seq, frm, id);
 carCenters = B(:,4:6);
-[wireframe, def_vectors] = poseOptimizer(seq, frm, id);
+[wireframe, def_vectors, rotation_collection, translation_collection] = poseOptimizer(seq, frm, id);
 observation_wts = keypointWeights(seq, frm, id);
 [wkps, keypoints_collection] = keypointLocalizations(seq, frm, id);
 lambda = [0.250000 0.270000 0.010000 -0.080000 -0.050000];
@@ -30,14 +30,14 @@ for i=1:size(frm,2)
        fprintf(fileID, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", def_vectors(5*(i-1) + j, :)); 
     end
     fprintf(fileID, "%f %f %f %f %f\n", lambda);
+%     fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(rotation_collection(3*i-2:3*i,:)',[1 9]));
+    fprintf(fileID, "%f %f %f\n", rotation_collection(3*i-2:3*i,:));
+    fprintf(fileID, "%f\n", translation_collection(:,i));
     fclose(fileID);
     commands = "cd ceres; ./singleViewShapeAdjuster; cd -";
     system(commands);
-    data = importdata("ceres/ceres_output_singleViewShapeAdjuster.txt");
-    R = data(1:9);
-    T = data(10:12);
-    R = reshape(R, [3 3]);
-    new_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
+    T = importdata("ceres/ceres_output_singleViewShapeAdjuster.txt");
+    new_wireframe = wireframe(3*i-2:3*i,:) + T';
 %     wireframe_collection = [wireframe_collection; new_wireframe];
 %     old_def_vectors = def_vectors(5*i-4:5*i,:);
 %     new_def_vectors = zeros(size(old_def_vectors));
@@ -52,7 +52,7 @@ for i=1:size(frm,2)
     figure;
     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
     pause(2);
-
+    
 end
 
 end

@@ -1,4 +1,4 @@
-function [wireframe_collection, def_vectors_collection] = poseOptimizer(seq, frm, id)
+function [wireframe_collection, def_vectors_collection, rotation_collection, translation_collection] = poseOptimizer(seq, frm, id)
 
 numViews = 1;
 numPts = 14;
@@ -14,7 +14,10 @@ observation_wts = keypointWeights(seq, frm, id);
 [wkps, keypoints_collection] = keypointLocalizations(seq, frm, id);
 lambda = [0.250000 0.270000 0.010000 -0.080000 -0.050000];
 wireframe_collection = [];
-def_vectors_collection = def_vectors;
+% def_vectors_collection = def_vectors;
+def_vectors_collection = [];
+rotation_collection = [];
+translation_collection = [];
 
 for i=1:size(frm,2)
    
@@ -37,21 +40,24 @@ for i=1:size(frm,2)
     R = data(1:9);
     T = data(10:12);
     R = reshape(R, [3 3]);
+    rotation_collection = [rotation_collection; R];
+    translation_collection = [translation_collection, T];
     new_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
     wireframe_collection = [wireframe_collection; new_wireframe];
-%     old_def_vectors = def_vectors(5*i-4:5*i,:);
-%     new_def_vectors = zeros(size(old_def_vectors));
-%     for j = 1:size(old_def_vectors,1)
-%         in = reshape(old_def_vectors(j,:),3,14);
-%         out = 1 * in;
-%         new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
-%     end
-%     def_vectors_collection = [def_vectors_collection; new_def_vectors];
-    proj_wireframe = K * new_wireframe;
-    wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
-    figure;
-    visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
-    pause(2);
+    old_def_vectors = def_vectors(5*i-4:5*i,:);
+    new_def_vectors = zeros(size(old_def_vectors));
+    for j = 1:size(old_def_vectors,1)
+        in = reshape(old_def_vectors(j,:),3,14);
+        out = R * in;
+        new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
+    end
+    def_vectors_collection = [def_vectors_collection; new_def_vectors];
+
+%     proj_wireframe = K * new_wireframe;
+%     wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
+%     figure;
+%     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
+%     pause(2);
 
 end
 
