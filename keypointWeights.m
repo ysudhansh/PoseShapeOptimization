@@ -11,7 +11,7 @@ for i=1:size(azimuth,1)
     if (round(azimuth(i)) >= 1) % changing floor to round all around; just for later reference of changes because git can get irritating xD
         wkpl = [wkpl, kp_lookup(:,round(azimuth(i))) ./ sum(kp_lookup(:, round(azimuth(i))))];
     else
-        wkpl = [wkpl, kp_lookup(:,360 + round(azimuth(i))) ./ sum(kp_lookup(:, 360 + round(azimuth(i))))];
+        wkpl = [wkpl, kp_lookup(:,360 - abs(round(azimuth(i)))) ./ sum(kp_lookup(:, 360 - abs(round(azimuth(i)))))];
     end
 end
 
