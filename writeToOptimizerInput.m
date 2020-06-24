@@ -42,13 +42,13 @@ for i=1:size(frm,2)
     R = data(1:9);
     T = data(10:12);
     R = reshape(R, [3 3]);
-    new_wireframe = (R * old_wireframe) + T;
+    new_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
     proj_wireframe = K * new_wireframe;
     wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
     figure;
     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
     pause(2);
-    break;
+%     break;
 end
 
 end
