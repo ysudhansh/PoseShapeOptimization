@@ -1,4 +1,4 @@
-function writeToOptimizerInput(seq, frm, id)
+function [wireframe_collection, def_vectors_collection] = poseOptimizer(seq, frm, id)
 
 numViews = 1;
 numPts = 14;
@@ -13,7 +13,8 @@ carCenters = B(:,4:6);
 observation_wts = keypointWeights(seq, frm, id);
 [wkps, keypoints_collection] = keypointLocalizations(seq, frm, id);
 lambda = [0.250000 0.270000 0.010000 -0.080000 -0.050000];
-[old_wireframe, old_def_vectors] = initialTransformations();
+wireframe_collection = [];
+def_vectors_collection = def_vectors;
 
 for i=1:size(frm,2)
    
@@ -23,32 +24,35 @@ for i=1:size(frm,2)
     fprintf(fileID, "%f %f %f\n", [avgCarHeight, avgCarWidth, avgCarLength]);
     fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(K',[1 9]));
     fprintf(fileID, "%f %f\n", keypoints_collection(2*i-1:2*i,:));
-%     for j=1:2
-%         fprintf(fileID, "%f %f\n", keypoints_collection(2*(i-1) + j,:));
-%     end
     fprintf(fileID, "%f\n", observation_wts(:,i));  
     fprintf(fileID, "%f %f %f\n", wireframe(3*i-2:3*i,:));
-%     for j=1:3
-%         fprintf(fileID, "%f %f %f\n", wireframe(3*(i-1) + j,:));
-%     end
     for j=1:5
        fprintf(fileID, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", def_vectors(5*(i-1) + j, :)); 
     end
     fprintf(fileID, "%f %f %f %f %f\n", lambda);
     fclose(fileID);
     commands = "cd ceres; ./singleViewPoseAdjuster; cd -";
-    status = system(commands);
+    system(commands);
     data = importdata("ceres/ceres_output_singleViewPoseAdjuster.txt");
     R = data(1:9);
     T = data(10:12);
     R = reshape(R, [3 3]);
     new_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
+    wireframe_collection = [wireframe_collection; new_wireframe];
+%     old_def_vectors = def_vectors(5*i-4:5*i,:);
+%     new_def_vectors = zeros(size(old_def_vectors));
+%     for j = 1:size(old_def_vectors,1)
+%         in = reshape(old_def_vectors(j,:),3,14);
+%         out = 1 * in;
+%         new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
+%     end
+%     def_vectors_collection = [def_vectors_collection; new_def_vectors];
     proj_wireframe = K * new_wireframe;
     wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
     figure;
     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
     pause(2);
-%     break;
+
 end
 
 end

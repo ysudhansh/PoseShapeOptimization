@@ -447,7 +447,10 @@ struct LambdaReprojectionError{
 		P_[2] = T(X_[2]) + T(l[0])*T(v_[2]) + T(l[1])*T(v_[5]) + T(l[2])*T(v_[8]) + T(l[3])*T(v_[11]) + T(l[4])*T(v_[14]);
 
 		// Apply the rotation and translation
+		// T Pt_[3];
 		ceres::AngleAxisRotatePoint(rot_, P_, P_);
+		// *P_ = *Pt_;
+
 		P_[0] += T(trans_[0]);
 		P_[1] += T(trans_[1]);
 		P_[2] += T(trans_[2]);

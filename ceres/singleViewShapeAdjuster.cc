@@ -232,7 +232,9 @@ int main(int argc, char** argv){
 			// 	V[3*numObs*j + 3*i + 2] << std::endl;
 		}
 
+		// double temp1[3];
 		ceres::AngleAxisRotatePoint(rotAngleAxis, temp, temp);
+		// *temp = *temp1;
 		temp[0] += trans[0];
 		temp[1] += trans[1];
 		temp[2] += trans[2];
