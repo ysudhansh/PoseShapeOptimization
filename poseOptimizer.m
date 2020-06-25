@@ -18,6 +18,7 @@ wireframe_collection = [];
 def_vectors_collection = [];
 rotation_collection = [];
 translation_collection = [];
+wf_img_collection = [];
 
 for i=1:size(frm,2)
    
@@ -48,13 +49,14 @@ for i=1:size(frm,2)
     new_def_vectors = zeros(size(old_def_vectors));
     for j = 1:size(old_def_vectors,1)
         in = reshape(old_def_vectors(j,:),3,14);
-        out = R * in;
+        out = 1 * in;
         new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
     end
     def_vectors_collection = [def_vectors_collection; new_def_vectors];
 
-%     proj_wireframe = K * new_wireframe;
-%     wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
+    proj_wireframe = K * new_wireframe;
+    wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
+    wf_img_collection = [wf_img_collection; wireframe_img];
 %     figure;
 %     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
 %     pause(2);

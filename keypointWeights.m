@@ -1,10 +1,10 @@
-function w = keypointWeights(seq, frm, id)
+function [w, wkps, wkpl] = keypointWeights(seq, frm, id)
 
 tracklets_data = tracklets(seq, frm, id);
 kp_lookup = importdata("kpLookup_azimuth.mat");
 kp_lookup = kp_lookup';
 ry = tracklets_data(:,size(tracklets_data,2));
-azimuth = rad2deg(ry + pi/2);
+azimuth = rad2deg(ry + pi/2) + 10*rand();
 wkps = keypointLocalizations(seq, frm, id);
 wkpl = [];
 for i=1:size(azimuth,1)
@@ -15,6 +15,6 @@ for i=1:size(azimuth,1)
     end
 end
 
-w = 0.3 * wkps + 0.7 * wkpl;
+w = 0.7 * wkps + 0.3 * wkpl;
 
 end
