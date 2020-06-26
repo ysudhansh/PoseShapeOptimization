@@ -31,8 +31,6 @@ for i=1:size(frm,2)
        fprintf(fileID, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", def_vectors(5*(i-1) + j, :)); 
     end
     fprintf(fileID, "%f %f %f %f %f\n", lambda);
-    fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(rotation_collection(3*i-2:3*i,:)',[1 9]));
-    fprintf(fileID, "%f %f %f\n", rotation_collection(3*i-2:3*i,:)');
     fprintf(fileID, "%f\n", rotation_collection(:,i));
     fprintf(fileID, "%f\n", translation_collection(:,i));
     fclose(fileID);
