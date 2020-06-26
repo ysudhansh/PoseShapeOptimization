@@ -284,22 +284,22 @@ public:
 
 
 
-		// // Printing out data (for verification)
-		// std::cout << "numViews: " << numViews_ << std::endl;
-		// std::cout << "numPoints: " << numPts_ << std::endl;
-		// std::cout << "numObs: " << numObs_ << std::endl;
-		// std::cout << "K: " << K_[0] << " " << K_[1] << " " << K_[2] << " " << K_[3] << " " \
-		// 	<< K_[4] << " " << K_[5] << " " << K_[6] << " " << K_[7] << " " << K_[8] << std::endl;
-		// for(int i = 0; i < numObs_; ++i){
-		// 	std::cout << "Obs: " << observations_[0+2*i] << " " << observations_[1+2*i] << std::endl;
-		// }
-		// for(int i = 0; i < numObs_; ++i){
-		// 	std::cout << "ObsWeight: " << observationWeights_[i] << std::endl;
-		// }
-		// for(int i = 0; i < numObs_; ++i){
-		// 	std::cout << "3D Point: " << X_bar_[0+3*i] << " " << X_bar_[1+3*i] << " " \
-		// 	<< X_bar_[2+3*i] << std::endl;
-		// }
+		// Printing out data (for verification)
+		std::cout << "numViews: " << numViews_ << std::endl;
+		std::cout << "numPoints: " << numPts_ << std::endl;
+		std::cout << "numObs: " << numObs_ << std::endl;
+		std::cout << "K: " << K_[0] << " " << K_[1] << " " << K_[2] << " " << K_[3] << " " \
+			<< K_[4] << " " << K_[5] << " " << K_[6] << " " << K_[7] << " " << K_[8] << std::endl;
+		for(int i = 0; i < numObs_; ++i){
+			std::cout << "Obs: " << observations_[0+2*i] << " " << observations_[1+2*i] << std::endl;
+		}
+		for(int i = 0; i < numObs_; ++i){
+			std::cout << "ObsWeight: " << observationWeights_[i] << std::endl;
+		}
+		for(int i = 0; i < numObs_; ++i){
+			std::cout << "3D Point: " << X_bar_[0+3*i] << " " << X_bar_[1+3*i] << " " \
+			<< X_bar_[2+3*i] << std::endl;
+		}
 
 		return true;
 

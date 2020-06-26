@@ -38,10 +38,10 @@ for i=1:size(frm,2)
     commands = "cd ceres; ./singleViewPoseAdjuster; cd -";
     system(commands);
     data = importdata("ceres/ceres_output_singleViewPoseAdjuster.txt");
-    r = data(1:9);
+    R = data(1:9);
     T = data(10:12);
-    R = reshape(r, [3 3]);
-    rotation_collection = [rotation_collection, r];
+    R = reshape(R, [3 3]);
+    rotation_collection = [rotation_collection; R];
     translation_collection = [translation_collection, T];
     new_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
     wireframe_collection = [wireframe_collection; new_wireframe];
@@ -57,9 +57,9 @@ for i=1:size(frm,2)
     proj_wireframe = K * new_wireframe;
     wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
     wf_img_collection = [wf_img_collection; wireframe_img];
-%     figure;
-%     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
-%     pause(2);
+    figure;
+    visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
+    pause(2);
 
 end
 
