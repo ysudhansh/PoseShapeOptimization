@@ -18,21 +18,21 @@ lambda = [0.250000 0.270000 0.010000 -0.080000 -0.050000];
 % def_vectors_collection = [];
 
 for i=1:size(frm,2)
-    system("cp ceres/ceres_input_singleViewPoseAdjuster.txt ceres/ceres_input_singleViewShapeAdjuster.txt");
-    fileID = fopen("ceres/ceres_input_singleViewShapeAdjuster.txt","a");
-%     fprintf(fileID, "%d %d %d\n", [numViews, numPts, numObs]);
-%     fprintf(fileID, "%f %f %f\n", [carCenters(i,1), carCenters(i,2), carCenters(i,3)]);
-%     fprintf(fileID, "%f %f %f\n", [avgCarHeight, avgCarWidth, avgCarLength]);
-%     fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(K',[1 9]));
-%     fprintf(fileID, "%f %f\n", keypoints_collection(2*i-1:2*i,:));
-%     fprintf(fileID, "%f\n", observation_wts(:,i));  
-%     fprintf(fileID, "%f %f %f\n", wireframe(3*i-2:3*i,:));
-%     for j=1:5
-%        fprintf(fileID, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", def_vectors(5*(i-1) + j, :)); 
-%     end
-%     fprintf(fileID, "%f %f %f %f %f\n", lambda);
-%     fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(rotation_collection(3*i-2:3*i,:)',[1 9]));
-%     fprintf(fileID, "%f %f %f\n", rotation_collection(3*i-2:3*i,:)');
+%     system("cp ceres/ceres_input_singleViewPoseAdjuster.txt ceres/ceres_input_singleViewShapeAdjuster.txt");
+    fileID = fopen("ceres/ceres_input_singleViewShapeAdjuster.txt","w");
+    fprintf(fileID, "%d %d %d\n", [numViews, numPts, numObs]);
+    fprintf(fileID, "%f %f %f\n", [carCenters(i,1), carCenters(i,2), carCenters(i,3)]);
+    fprintf(fileID, "%f %f %f\n", [avgCarHeight, avgCarWidth, avgCarLength]);
+    fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(K',[1 9]));
+    fprintf(fileID, "%f %f\n", keypoints_collection(2*i-1:2*i,:));
+    fprintf(fileID, "%f\n", observation_wts(:,i));  
+    fprintf(fileID, "%f %f %f\n", wireframe(3*i-2:3*i,:));
+    for j=1:5
+       fprintf(fileID, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", def_vectors(5*(i-1) + j, :)); 
+    end
+    fprintf(fileID, "%f %f %f %f %f\n", lambda);
+    fprintf(fileID, "%f %f %f %f %f %f %f %f %f\n", reshape(rotation_collection(3*i-2:3*i,:)',[1 9]));
+    fprintf(fileID, "%f %f %f\n", rotation_collection(3*i-2:3*i,:)');
     fprintf(fileID, "%f\n", rotation_collection(:,i));
     fprintf(fileID, "%f\n", translation_collection(:,i));
     fclose(fileID);

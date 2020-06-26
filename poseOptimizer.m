@@ -43,23 +43,35 @@ for i=1:size(frm,2)
     R = reshape(r, [3 3]);
     rotation_collection = [rotation_collection, r];
     translation_collection = [translation_collection, T];
-    new_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
-    wireframe_collection = [wireframe_collection; new_wireframe];
-    old_def_vectors = def_vectors(5*i-4:5*i,:);
-    new_def_vectors = zeros(size(old_def_vectors));
-    for j = 1:size(old_def_vectors,1)
-        in = reshape(old_def_vectors(j,:),3,14);
-        out = 1 * in;
-        new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
-    end
-    def_vectors_collection = [def_vectors_collection; new_def_vectors];
+    pose_opt_wireframe = (R * wireframe(3*i-2:3*i,:)) + T;
+    system("cp ceres/ceres_input_singleViewPoseAdjuster.txt ceres/ceres_input_singleViewShapeAdjuster.txt");
+    f = fopen("ceres/ceres_input_singleViewShapeAdjuster.txt","a");
+    fprintf(f, "%f\n", r);
+    fprintf(f, "%f\n", T);
+    fclose(f);
+    commands = "cd ceres; ./singleViewShapeAdjuster; cd -";
+    system(commands);
+    shape_opt_wireframe = importdata("ceres/ceres_output_singleViewShapeAdjuster.txt")';
+%     wireframe_collection = [wireframe_collection; pose_opt_wireframe];
+%     old_def_vectors = def_vectors(5*i-4:5*i,:);
+%     new_def_vectors = zeros(size(old_def_vectors));
+%     for j = 1:size(old_def_vectors,1)
+%         in = reshape(old_def_vectors(j,:),3,14);
+%         out = 1 * in;
+%         new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
+%     end
+%     def_vectors_collection = [def_vectors_collection; new_def_vectors];
 
-    proj_wireframe = K * new_wireframe;
-    wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
-    wf_img_collection = [wf_img_collection; wireframe_img];
-%     figure;
-%     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
-%     pause(2);
+    proj_wireframe = K * pose_opt_wireframe;
+    pose_opt_wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
+    proj_wireframe = K * shape_opt_wireframe;
+    shape_opt_wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
+    figure;
+    subplot(2,1,1);
+    visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", pose_opt_wireframe_img);
+    subplot(2,1,2);
+    visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", shape_opt_wireframe_img);
+    pause(2);
 
 end
 
