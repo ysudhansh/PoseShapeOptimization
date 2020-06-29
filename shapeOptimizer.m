@@ -15,10 +15,8 @@ observation_wts = keypointWeightsShape(seq, frm, id);
 [wkps, keypoints_collection] = keypointLocalizations(seq, frm, id);
 lambda = [0.250000 0.270000 0.010000 -0.080000 -0.050000];
 wireframe_collection = [];
-% def_vectors_collection = [];
 
 for i=1:size(frm,2)
-%     system("cp ceres/ceres_input_singleViewPoseAdjuster.txt ceres/ceres_input_singleViewShapeAdjuster.txt");
     fileID = fopen("ceres/ceres_input_singleViewShapeAdjuster.txt","w");
     fprintf(fileID, "%d %d %d\n", [numViews, numPts, numObs]);
     fprintf(fileID, "%f %f %f\n", [carCenters(i,1), carCenters(i,2), carCenters(i,3)]);
@@ -38,22 +36,6 @@ for i=1:size(frm,2)
     system(commands);
     new_wireframe = importdata("ceres/ceres_output_singleViewShapeAdjuster.txt")';
     wireframe_collection = [wireframe_collection; new_wireframe];
-%     new_wireframe = rot * wireframe(3*i-2:3*i,:) + translation_collection(:,i) + T;
-%     wireframe_collection = [wireframe_collection; new_wireframe];
-%     old_def_vectors = def_vectors(5*i-4:5*i,:);
-%     new_def_vectors = zeros(size(old_def_vectors));
-%     for j = 1:size(old_def_vectors,1)
-%         in = reshape(old_def_vectors(j,:),3,14);
-%         out = 1 * in;
-%         new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
-%     end
-%     def_vectors_collection = [def_vectors_collection; new_def_vectors];
-%     proj_wireframe = K * new_wireframe;
-%     wireframe_img = [proj_wireframe(1,:) ./ proj_wireframe(3,:); proj_wireframe(2,:) ./ proj_wireframe(3,:)];
-%     figure;
-%     visualizeWireframe2D("left_colour_imgs/" + string(B(i,1)) + "_" + string(B(i,2)) + ".png", wireframe_img);
-%     pause(3);
-%     break;
 end
 
 end

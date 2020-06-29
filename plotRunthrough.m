@@ -2,12 +2,15 @@ function plotRunthrough(seq, frm, id)
 
 data = importdata("result_KP.txt");
 tracklets_data = tracklets(seq, frm, id);
+B = mobili(seq, frm, id);
+carCenters = B(:,4:6);
 K = [721.53,0,609.55;0,721.53,172.85;0,0,1];
 approx_aligned_wireframe_collection = approxAlignWireframe(seq, frm, id);
 pose_optimized_wireframe_collection = poseOptimizer(seq, frm, id);
 shape_optimized_wireframe_collection = shapeOptimizer(seq, frm, id);
 reprojection_errors = [];
 viewpoint_errors = [];
+rmse = [];
 
 for i=1:size(data,1)
     keypoints = reshape(data(i,:), [3 14]);
@@ -20,18 +23,21 @@ for i=1:size(data,1)
     approx_wf_img = [approx_proj_wf(1,:) ./ approx_proj_wf(3,:); approx_proj_wf(2,:) ./ approx_proj_wf(3,:)];
     length_vec = (approx_aligned_wf(:,1) + approx_aligned_wf(:,2))/2 - (approx_aligned_wf(:,3) + approx_aligned_wf(:,4))/2;
     approx_azimuth = rad2deg(acos(dot(length_vec, [0;0;1]) / norm(length_vec)));
+    approx_rmse = sqrt(mean((mean(approx_aligned_wf') - carCenters(i,:)) .^ 2));
     
     pose_opt_wf = pose_optimized_wireframe_collection(3*i-2:3*i,:);
     pose_opt_proj_wf = K * pose_opt_wf;
     pose_opt_wf_img = [pose_opt_proj_wf(1,:) ./ pose_opt_proj_wf(3,:); pose_opt_proj_wf(2,:) ./ pose_opt_proj_wf(3,:)];
     length_vec = (pose_opt_wf(:,1) + pose_opt_wf(:,2))/2 - (pose_opt_wf(:,3) + pose_opt_wf(:,4))/2;
     pose_azimuth = rad2deg(acos(dot(length_vec, [0;0;1]) / norm(length_vec)));
+    pose_rmse = sqrt(mean((mean(pose_opt_wf') - carCenters(i,:)) .^ 2));
     
     shape_opt_wf = shape_optimized_wireframe_collection(3*i-2:3*i,:);
     shape_opt_proj_wf = K * shape_opt_wf;
     shape_opt_wf_img = [shape_opt_proj_wf(1,:) ./ shape_opt_proj_wf(3,:); shape_opt_proj_wf(2,:) ./ shape_opt_proj_wf(3,:)];
     length_vec = (shape_opt_wf(:,1) + shape_opt_wf(:,2))/2 - (shape_opt_wf(:,3) + shape_opt_wf(:,4))/2;
     shape_azimuth = rad2deg(acos(dot(length_vec, [0;0;1]) / norm(length_vec)));
+    shape_rmse = sqrt(mean((mean(shape_opt_wf') - carCenters(i,:)) .^ 2));
 
     errors = [sum(sum(abs(approx_wf_img - keypoints(1:2,:)))); sum(sum(abs(pose_opt_wf_img - keypoints(1:2,:)))); sum(sum(abs(shape_opt_wf_img - keypoints(1:2,:))))];
     reprojection_errors = [reprojection_errors, errors];
@@ -43,9 +49,10 @@ for i=1:size(data,1)
     else
         errors = abs([approx_azimuth; pose_azimuth; shape_azimuth] + rad2deg(tracklets_data(i,8) + pi/2));
     end
-    azimuths = [approx_azimuth; pose_azimuth; shape_azimuth]
-%     errors = abs([approx_azimuth; pose_azimuth; shape_azimuth] - rad2deg(tracklets_data(i,8) + pi/2))
     viewpoint_errors = [viewpoint_errors, errors];
+    
+    errors = [approx_rmse; pose_rmse; shape_rmse];
+    rmse = [rmse, errors];
     
     img = "left_colour_imgs/" + string(tracklets_data(i,1)) + "_" + string(tracklets_data(i,2)) + ".png";
     figure;
@@ -72,49 +79,22 @@ for i=1:size(data,1)
     
 end
 
-figure;
-% subplot(3,1,1); 
-graph = [reprojection_errors(1,:); reprojection_errors(2,:); reprojection_errors(3,:)];
-bar(graph);
-hold on;
-% title("Reprojection Errors Before Pose Optimization");
-% xlabel("Vehicles (seq\_frm\_id)");
-% ylabel("Error Values");
-% subplot(3,1,2);
-% bar(1:6, reprojection_errors(2,:),'b');
-hold on;
-% title("Reprojection Errors After Pose Optimization");
-% xlabel("Vehicles (seq\_frm\_id)");
-% ylabel("Error Values");
-% subplot(3,1,3);
-% bar(1:6, reprojection_errors(3,:),'g');
-hold on;
+figure; 
+bar(reprojection_errors);
 title("Reprojection Errors");
-xlabel("Vehicles (seq\_frm\_id)");
+xlabel(["1 - Before Pose Opt";"2 - After Pose Opt";"3 - After Shape Opt"]);
 ylabel("Error Values");
 
 figure;
-% subplot(3,1,1); 
-graph = [viewpoint_errors(1,:); viewpoint_errors(2,:); viewpoint_errors(3,:)];
-bar(graph);
-hold on;
-% title("Viewpoint Errors Before Pose Optimization");
-% xlabel("Vehicles (seq\_frm\_id)");
-% ylabel("Error Values (in degrees)");
-% subplot(3,1,2); 
-% bar(1:6, viewpoint_errors(2,:),'b');
-hold on;
-% title("Viewpoint Errors After Pose Optimization");
-% xlabel("Vehicles (seq\_frm\_id)");
-% ylabel("Error Values (in degrees)");
-% subplot(3,1,3);
-% bar(1:6, viewpoint_errors(3,:),'g');
-hold on;
+bar(viewpoint_errors);
 title("Viewpoint Errors");
-xlabel("Vehicles (seq\_frm\_id)");
+xlabel(["1 - Before Pose Opt";"2 - After Pose Opt";"3 - After Shape Opt"]);
 ylabel("Error Values (in degrees)");
 
-close 1 2 3 4 5 6;  
-% close 7 8 9;
+figure;
+bar(rmse);
+title("RMS Errors");
+xlabel(["1 - Before Pose Opt";"2 - After Pose Opt";"3 - After Shape Opt"]);
+ylabel("Error Values");
 
 end

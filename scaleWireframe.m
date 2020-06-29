@@ -49,7 +49,4 @@ for i = 1:size(deformation_vectors,1)
     transformed_deformation_vectors(i,:) = reshape(in,size(deformation_vectors(i,:)));
 end
 
-% subplot(1,2,1); visualizeWireframe3D(wireframe); % Plot of mean car shape with original dimensions
-% subplot(1,2,2); visualizeWireframe3D(wireframe_scaled); title("Scaled dimensions"); % Plot of mean car shape with scaled dimensions
-
 end

@@ -23,9 +23,6 @@ for i=1:size(phi,1)
         new_def_vectors(j,:) = reshape(out,size(old_def_vectors(j,:)));
     end
     def_vector_collection = [def_vector_collection; new_def_vectors];
-%     figure;
-%     visualizeWireframe2D("left_colour_imgs/" + string(tracklets_data(i,1)) + "_" + string(tracklets_data(i,2)) + ".png", new_wireframe_img);
-%     pause(2);
 
 end
 
